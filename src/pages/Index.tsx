@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Shield, Search, Settings, Database, Activity, AlertTriangle, Zap, Target } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,10 +8,18 @@ import ModelParameters from '@/components/ModelParameters';
 import DatasetManager from '@/components/DatasetManager';
 import SecurityResults from '@/components/SecurityResults';
 import ThreatMonitor from '@/components/ThreatMonitor';
+import SecurityScanRunner from '@/components/SecurityScanRunner';
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 const Index = () => {
   const [activeScan, setActiveScan] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
+  const { signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-red-900">
@@ -33,6 +40,13 @@ const Index = () => {
             <div className="px-4 py-2 bg-green-600/20 border border-green-500 rounded-lg">
               <span className="text-green-400 font-medium">System Online</span>
             </div>
+            <Button 
+              onClick={handleSignOut}
+              variant="outline" 
+              className="border-slate-600 text-slate-300"
+            >
+              Sign Out
+            </Button>
             {activeScan && (
               <div className="px-4 py-2 bg-red-600/20 border border-red-500 rounded-lg animate-pulse">
                 <span className="text-red-400 font-medium">Scan Active: {scanProgress}%</span>
@@ -118,7 +132,7 @@ const Index = () => {
           </TabsList>
 
           <TabsContent value="scan" className="space-y-6">
-            <ScanConfiguration onScanStart={setActiveScan} onProgressUpdate={setScanProgress} />
+            <SecurityScanRunner />
           </TabsContent>
 
           <TabsContent value="templates" className="space-y-6">

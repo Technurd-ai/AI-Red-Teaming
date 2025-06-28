@@ -9,7 +9,155 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      attack_templates: {
+        Row: {
+          category: string
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          name: string
+          payload: string
+          severity: string
+          tags: string[] | null
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          payload: string
+          severity: string
+          tags?: string[] | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          payload?: string
+          severity?: string
+          tags?: string[] | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          full_name: string | null
+          id: string
+          role: string | null
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          full_name?: string | null
+          id: string
+          role?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          full_name?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Relationships: []
+      }
+      security_scans: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          progress: number | null
+          results: Json | null
+          scan_type: string
+          security_score: number | null
+          status: string | null
+          target_url: string
+          user_id: string
+          vulnerabilities_found: number | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          progress?: number | null
+          results?: Json | null
+          scan_type: string
+          security_score?: number | null
+          status?: string | null
+          target_url: string
+          user_id: string
+          vulnerabilities_found?: number | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          progress?: number | null
+          results?: Json | null
+          scan_type?: string
+          security_score?: number | null
+          status?: string | null
+          target_url?: string
+          user_id?: string
+          vulnerabilities_found?: number | null
+        }
+        Relationships: []
+      }
+      threat_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string | null
+          description: string
+          id: string
+          payload: string | null
+          scan_id: string | null
+          severity: string
+          source: string | null
+          status: string | null
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string | null
+          description: string
+          id?: string
+          payload?: string | null
+          scan_id?: string | null
+          severity: string
+          source?: string | null
+          status?: string | null
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          payload?: string | null
+          scan_id?: string | null
+          severity?: string
+          source?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "threat_alerts_scan_id_fkey"
+            columns: ["scan_id"]
+            isOneToOne: false
+            referencedRelation: "security_scans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
